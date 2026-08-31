@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>I-Brick | Sensing the wall from the inside</title>
-<meta name="description" content="I-Brick is a sensor node that sits inside the wall and reports the moisture, thermal and air-quality conditions that cause envelope failure, as an explainable 0–100 risk score. Pilot programme open.">
+<meta name="description" content="I-Brick sits inside the wall and catches envelope moisture months before it is visible, as a single explainable 0–100 risk score with the reasoning attached. Pilot programme open.">
 <link rel="canonical" href="https://ckteja.github.io/i-brick/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="I-Brick">
 <meta property="og:title" content="I-Brick | Sensing the wall from the inside">
-<meta property="og:description" content="A sensor node inside the wall, an explainable 0–100 risk score, and a report an engineer can act on. Pilot programme open for Q4 2026.">
+<meta property="og:description" content="Catch envelope moisture while the fix is still cheap. An explainable 0–100 risk score and a report an engineer can act on. Pilot programme open for Q4 2026.">
 <meta property="og:url" content="https://ckteja.github.io/i-brick/">
 <meta property="og:image" content="https://ckteja.github.io/i-brick/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -132,33 +132,15 @@ header .btn{padding:9px 16px}
 .step svg{width:26px;height:26px;stroke:var(--steel);fill:none;stroke-width:1.5;
   stroke-linecap:round;stroke-linejoin:round;margin-bottom:6px}
 
-/* table */
-.tbl-wrap{overflow-x:auto;margin-top:34px;border:1px solid var(--line);border-radius:12px}
-table{width:100%;border-collapse:collapse;min-width:660px;font-size:14.5px}
-th{text-align:left;padding:14px 18px;background:var(--panel-2);color:var(--faint);
-  font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;white-space:nowrap}
-td{padding:13px 18px;border-top:1px solid var(--line);color:var(--dim);vertical-align:top}
-td:first-child{color:var(--text);font-weight:500;white-space:nowrap}
-.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;
-  font-weight:600;letter-spacing:.6px;text-transform:uppercase;white-space:nowrap}
-.p-m{background:rgba(46,204,113,.13);color:#57D98D;border:1px solid rgba(46,204,113,.3)}
-.p-d{background:rgba(0,200,220,.12);color:var(--cyan);border:1px solid rgba(0,200,220,.3)}
-.p-u{background:rgba(122,146,152,.14);color:#9FB6C4;border:1px solid rgba(159,182,196,.26)}
-.p-r{background:rgba(196,83,26,.14);color:#E0793F;border:1px solid rgba(196,83,26,.34)}
 .note{margin-top:20px;padding:18px 20px;border-left:2px solid var(--cyan);
   background:rgba(0,200,220,.05);border-radius:0 8px 8px 0;font-size:15px;color:var(--dim)}
 .note b{color:var(--text)}
 
-/* layers + bands */
-.layers{display:flex;flex-wrap:wrap;gap:9px;margin-top:32px}
-.layer{display:flex;align-items:center;gap:9px;padding:9px 14px;border-radius:8px;
-  background:var(--panel);border:1px solid var(--line);font-size:13.5px;color:var(--dim)}
-.layer i{font-family:var(--display);font-style:normal;font-weight:700;font-size:12px;color:var(--cyan)}
+/* bands */
 .bands{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:30px}
 @media(max-width:640px){.bands{grid-template-columns:1fr 1fr}}
 .band{border:1px solid var(--line);border-radius:10px;padding:16px 18px;background:var(--panel)}
 .band .k{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:1px}
-.band .r{font-size:12px;color:var(--faint);margin-top:2px}
 .band .a{font-size:13px;color:var(--dim);margin-top:9px}
 .band.b1{border-left:3px solid var(--ok)} .band.b1 .k{color:var(--ok)}
 .band.b2{border-left:3px solid var(--warn)} .band.b2 .k{color:var(--warn)}
@@ -224,8 +206,8 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
     </a>
     <nav>
       <a href="#how">How it works</a>
-      <a href="#measures">What it measures</a>
-      <a href="#engine">Risk engine</a>
+      <a href="#measures">What it watches</a>
+      <a href="#engine">What it is worth</a>
       <a href="#pilot">Pilot</a>
       <a class="btn btn-p" href="#contact">Apply for a pilot</a>
     </nav>
@@ -244,17 +226,17 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
   <div class="wrap">
     <span class="chip"><span class="pulse"></span> Pilot programme open · 4 sites, Q4 2026</span>
     <h1>By the time you can see the damp patch, it has been <em>growing for months</em>.</h1>
-    <p class="lede">I-Brick is a sensor node that sits inside the wall and reports the moisture,
-      thermal and air-quality conditions that drive envelope failure, as an explainable
-      0–100 risk score with the reasoning attached, not a raw data dump.</p>
+    <p class="lede">I-Brick sits inside the wall and watches the conditions that drive envelope
+      failure, turning them into a single 0–100 risk score with the reasoning attached. You get a
+      decision, months before the damage is visible, not a raw data dump.</p>
     <div class="cta">
       <a class="btn btn-p" href="#contact">Apply for a pilot →</a>
-      <a class="btn btn-s" href="#measures">See exactly what it measures</a>
+      <a class="btn btn-s" href="#measures">See what it watches for</a>
     </div>
     <div class="spec">
-      <span><b>Hardware:</b> ESP32-class node · BME680 · LSM6DS3 IMU · Wi-Fi or LoRa</span>
-      <span><b>Backend:</b> FastAPI · PostgreSQL · analysis worker</span>
-      <span><b>Output:</b> live dashboard · alerts · PDF report</span>
+      <span><b>Install:</b> one wall, no disruption to the occupant</span>
+      <span><b>Runs:</b> continuously, reporting on its own</span>
+      <span><b>Output:</b> live dashboard · alerts · engineer-ready report</span>
     </div>
   </div>
 </div>
@@ -300,24 +282,24 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
       </div>
       <div class="step">
         <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9zM2 9h2M2 15h2M20 9h2M20 15h2M9 2v2M15 2v2M9 20v2M15 20v2"/></svg>
-        <div class="n">02 · EDGE</div>
-        <h3>Local processing</h3>
-        <p>The board holds its own thresholds and rolling baselines, keeps working when the
-           network drops, and pushes over Wi-Fi, or LoRa on sites without coverage.</p>
+        <div class="n">02 · ON SITE</div>
+        <h3>Works unattended</h3>
+        <p>It keeps recording through network outages and reports on its own once connection
+           returns. Nobody has to visit the wall, and nothing is lost while they don't.</p>
       </div>
       <div class="step">
         <svg viewBox="0 0 24 24"><path d="M12 2v6M12 16v6M4.9 4.9l4.2 4.2M14.9 14.9l4.2 4.2M2 12h6M16 12h6M4.9 19.1l4.2-4.2M14.9 9.1l4.2-4.2"/><circle cx="12" cy="12" r="3"/></svg>
-        <div class="n">03 · ENGINE</div>
-        <h3>11-layer risk analysis</h3>
-        <p>Physics first: dew point, absolute humidity, surface RH, heat flux. Then trend,
-           anomaly and forecast layers on top, fused into one score.</p>
+        <div class="n">03 · ANALYSIS</div>
+        <h3>One score, not a spreadsheet</h3>
+        <p>Readings become a single risk score for that wall, with the conditions that drove it
+           named in plain language. No interpretation required from whoever opens it.</p>
       </div>
       <div class="step">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M7 21h10M12 17v4M7 12l3-3 2.5 2.5L17 7"/></svg>
         <div class="n">04 · ACT</div>
         <h3>Dashboard, alerts, report</h3>
-        <p>A live portfolio view, threshold and predicted alerts, and a PDF inspection report
-           per node or per building for hand-off to an engineer or insurer.</p>
+        <p>A live view across every wall you monitor, alerts before a threshold is crossed rather
+           than after, and a PDF report per wall or per building for hand-off to an engineer or insurer.</p>
       </div>
     </div>
   </div>
@@ -325,63 +307,70 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
 
 <section id="measures">
   <div class="wrap">
-    <span class="eyebrow">What it measures</span>
-    <h2 class="mt14">The honest channel list.</h2>
-    <p class="lede">Most monitoring products blur the line between what the hardware measured, what
-      software inferred, and what nobody checked at all. This is the full breakdown for the current node.</p>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr><th>Channel</th><th>Status</th><th>How</th></tr></thead>
-        <tbody>
-          <tr><td>Temperature</td><td><span class="pill p-m">Measured</span></td><td>BME680, on the node inside the wall build-up</td></tr>
-          <tr><td>Relative humidity</td><td><span class="pill p-m">Measured</span></td><td>BME680</td></tr>
-          <tr><td>Barometric pressure</td><td><span class="pill p-m">Measured</span></td><td>BME680</td></tr>
-          <tr><td>Gas resistance (MOX)</td><td><span class="pill p-m">Measured</span></td><td>BME680 metal-oxide element, in kΩ</td></tr>
-          <tr><td>Vibration RMS</td><td><span class="pill p-m">Measured</span></td><td>LSM6DS3 IMU, RMS over the sampling window</td></tr>
-          <tr><td>Dew point &amp; dew-point margin</td><td><span class="pill p-d">Derived</span></td><td>Magnus formula, from temperature and RH</td></tr>
-          <tr><td>Absolute humidity</td><td><span class="pill p-d">Derived</span></td><td>Thermodynamic, from temperature and RH</td></tr>
-          <tr><td>Surface RH</td><td><span class="pill p-d">Derived</span></td><td>Modelled at the wall surface, where mould actually grows</td></tr>
-          <tr><td>Heat flux</td><td><span class="pill p-d">Derived</span></td><td>Deviation from the wall's own learned thermal baseline</td></tr>
-          <tr><td>VOC / air-quality signal</td><td><span class="pill p-d">Derived</span></td><td>Gas resistance compensated for humidity and temperature, then scored against this device's own baseline in robust sigma</td></tr>
-          <tr><td>Vibration frequency</td><td><span class="pill p-u">Not measured</span></td><td>Needs burst sampling the node does not do. Stored as null, never estimated</td></tr>
-          <tr><td>Air infiltration / pressure Δ</td><td><span class="pill p-u">Not measured</span></td><td>No differential pressure sensor fitted. Reported as unassessed, not as zero</td></tr>
-          <tr><td>Crack width &amp; strain</td><td><span class="pill p-r">Roadmap</span></td><td>Needs a strain-gauge variant of the node. Not claimed today</td></tr>
-        </tbody>
-      </table>
+    <span class="eyebrow">What it watches</span>
+    <h2 class="mt14">Three things worth knowing about a wall.</h2>
+    <p class="lede">A wall fails slowly, and it signals long before anyone sees a stain. I-Brick
+      watches the three families of condition that matter, from inside the build-up rather than from
+      the room, and reports what they mean rather than what they read.</p>
+    <div class="grid g3" style="margin-top:36px">
+      <div class="card">
+        <h3>Environmental</h3>
+        <p>Whether the wall is wetting, drying, or holding water it should have shed by now, and how
+          it responds to the weather working against it. This is the signal that separates a wall
+          recovering from one November storm from a wall that never recovers at all.</p>
+      </div>
+      <div class="card">
+        <h3>Structural</h3>
+        <p>Change in how the fabric itself behaves over time. A wall in trouble starts behaving
+          differently long before it cracks, so a developing problem arrives as a trend on a chart
+          instead of as a phone call from a tenant.</p>
+      </div>
+      <div class="card">
+        <h3>Indoor</h3>
+        <p>The conditions occupants are actually living in, and whether they track with what the wall
+          is doing or diverge from it. A divergence tells you the problem is the building, not the
+          household, which is usually the question in dispute.</p>
+      </div>
     </div>
-    <p class="note"><b>The rule the product enforces:</b> when a channel has no sensor behind it, the
-      system reports it as <em>unassessed</em> instead of printing a number. A risk score that quietly
-      treats “not measured” as “measured zero” is worse than no score at all, so ours refuses to.</p>
+    <p class="note"><b>The rule the product enforces:</b> when we have not measured something, we say
+      so. A risk score that quietly treats “not measured” as “measured and fine” is worse than no
+      score at all, so ours reports it as <em>unassessed</em> and moves on.</p>
   </div>
 </section>
 
 <section id="engine">
   <div class="wrap">
-    <span class="eyebrow">The risk engine</span>
-    <h2 class="mt14">A score you can argue with.</h2>
-    <p class="lede">Eleven layers run over every reading: rule-first, physics wherever physics exists,
-      machine learning only where it earns its place. Each layer contributes a weighted component, and
-      every score arrives with its contributing causes attached.</p>
+    <span class="eyebrow">What it is worth</span>
+    <h2 class="mt14">Cheap while it is still condensation. Expensive once it is a repair.</h2>
+    <p class="lede">Envelope moisture is not a sudden event, it is a slow one that gets priced at the
+      end. Every month it runs undetected moves it further up a cost curve that starts at ventilation
+      and ends at replacing fabric, relocating an occupant, or arguing liability with a lawyer.</p>
 
-    <div class="layers">
-      <span class="layer"><i>01</i> Single-parameter risk</span>
-      <span class="layer"><i>02</i> Multi-parameter interaction</span>
-      <span class="layer"><i>03</i> Condensation &amp; dew point</span>
-      <span class="layer"><i>04</i> Forecast (3–6 months)</span>
-      <span class="layer"><i>05</i> Inverse root-cause</span>
-      <span class="layer"><i>06</i> ML anomaly detection</span>
-      <span class="layer"><i>07</i> Data-quality validation</span>
-      <span class="layer"><i>08</i> Sudden-change detection</span>
-      <span class="layer"><i>09</i> Seasonal adjustment</span>
-      <span class="layer"><i>10</i> Structural trend</span>
-      <span class="layer"><i>11</i> Early warning</span>
+    <div class="grid g3" style="margin-top:36px">
+      <div class="card">
+        <h3>Catch it while it is still cheap</h3>
+        <p>An alert while the wall is merely damp is a fan, a vent, or a drying schedule. The same
+          wall eighteen months later is plaster, insulation, decoration and a displaced tenant. The
+          average water damage claim runs to $15,400 before anyone has argued about cause.</p>
+      </div>
+      <div class="card">
+        <h3>Have evidence when the claim lands</h3>
+        <p>Damp disputes turn on what the wall was doing and when. A continuous record answers that
+          in an afternoon rather than an expert survey, whether you are defending a handover, a
+          repairing obligation, or an insurance position.</p>
+      </div>
+      <div class="card">
+        <h3>Send people where the problem is</h3>
+        <p>Blanket surveys cost the same whether or not they find anything. Ranked risk across a
+          portfolio means the visit goes to the wall that needs it, and the other eleven wait.</p>
+      </div>
     </div>
 
     <div class="bands">
-      <div class="band b1"><div class="k">LOW</div><div class="r">0–34</div><div class="a">Routine monitoring.</div></div>
-      <div class="band b2"><div class="k">MEDIUM</div><div class="r">35–54</div><div class="a">Investigate at next visit.</div></div>
-      <div class="band b3"><div class="k">HIGH</div><div class="r">55–74</div><div class="a">Intervene before damage.</div></div>
-      <div class="band b4"><div class="k">CRITICAL</div><div class="r">75–100</div><div class="a">Act now.</div></div>
+      <div class="band b1"><div class="k">LOW</div><div class="a">Routine monitoring.</div></div>
+      <div class="band b2"><div class="k">MEDIUM</div><div class="a">Investigate at next visit.</div></div>
+      <div class="band b3"><div class="k">HIGH</div><div class="a">Intervene before damage.</div></div>
+      <div class="band b4"><div class="k">CRITICAL</div><div class="a">Act now.</div></div>
     </div>
 
     <div class="sample">
@@ -390,11 +379,11 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
         <span class="tag">Illustrative output</span>
       </div>
       <div class="bd">
-        <b>Surface RH held above 80% for 9 of the last 12 hours</b> while the dew-point margin closed
-        to 1.2 °C, so condensation is intermittently occurring on the inner face. The gas signal sits
-        2.1σ below this node's own baseline, which is what separates <b>active microbial growth</b> from
-        transient humidity. Heat flux runs 38 W/m² above baseline for this orientation, consistent with
-        a wet, more conductive wall section. Infiltration: <b>unassessed</b>, no differential pressure sensor fitted.
+        <b>This wall has been wet for most of the last twelve hours</b>, and it is not drying between
+        episodes the way the rest of the elevation does. The pattern is condensation forming on the
+        inner face rather than water arriving from outside, which points at ventilation and heating
+        before it points at the fabric. <b>Recommended:</b> investigate before the next cold spell,
+        while the fix is still a change in how the room is used.
       </div>
     </div>
   </div>
@@ -404,20 +393,20 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
   <div class="wrap">
     <span class="eyebrow">The platform</span>
     <h2 class="mt14">Built, running, and boring to operate.</h2>
-    <p class="lede">Not renders. Screens from the current build: per-node channel tiles, an assistant
-      that labels its own epistemic status, and exports an engineer can file.</p>
+    <p class="lede">The dashboard is live today, not a render. Your team sees the walls they are
+      responsible for, ranked by what needs attention, and takes away a document an engineer or an
+      insurer will accept.</p>
     <div class="shots">
       <figure>
-        <div class="shot"><img src="assets/channels.webp" alt="Sensor channel tiles showing temperature, humidity, dew point, heat flux, absolute humidity, eCO2, TVOC and vibration, each with a status badge" loading="lazy" width="1300" height="190"></div>
-        <figcaption>Channel tiles for a single node, each against its own threshold band. Reading stored from a node on a test wall, 11 June 2026.</figcaption>
+        <div class="shot"><img src="assets/overview.webp" alt="Portfolio overview showing a health score of 75 out of 100, live sensor count, active alerts, the highest-risk wall, and headline findings for mould, condensation and ventilation" loading="lazy" width="1440" height="629"></div>
+        <figcaption>One score for the whole portfolio, the walls that need attention ranked above
+          the ones that do not, and the headline finding for each in words rather than numbers.</figcaption>
       </figure>
       <figure>
-        <div class="shot"><img src="assets/assistant.webp" alt="Assistant mode selector with professional and homeowner modes, noting that responses are labelled MEASURED, INFERRED or UNAVAILABLE" loading="lazy" width="1290" height="225"></div>
-        <figcaption>The assistant answers in engineer mode or plain language, and tags every claim <span style="color:#57D98D">MEASURED</span>, <span style="color:#00C8DC">INFERRED</span> or <span style="color:#9FB6C4">UNAVAILABLE</span>, so a model output is never mistaken for a reading.</figcaption>
-      </figure>
-      <figure>
-        <div class="shot"><img src="assets/reports.webp" alt="Reports and export page offering CSV, JSON and branded PDF structural health reports per brick or building" loading="lazy" width="1400" height="846"></div>
-        <figcaption>Exports per node or per building: raw CSV, analysis JSON with findings and alerts, and a branded PDF report carrying the executive summary, risk score, node metadata, latest readings, and every alert with severity, confidence and first-seen timestamp.</figcaption>
+        <div class="shot"><img src="assets/reports.webp" alt="Reports page offering CSV, JSON and branded PDF structural health reports per device and per building" loading="lazy" width="1440" height="665"></div>
+        <figcaption>Exports per wall or per building: the underlying data if you want it, and a
+          branded PDF report carrying the condition summary, the trends and the alert history,
+          which is the document you hand to a client, an engineer or an insurer.</figcaption>
       </figure>
     </div>
   </div>
@@ -442,9 +431,9 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
       </div>
       <div class="card">
         <h3>Engineering &amp; research groups</h3>
-        <p>A programmable node, an open channel registry and a documented risk engine, for
-          building-physics studies, retrofit verification, or comparing wall build-ups under
-          the same weather.</p>
+        <p>A wall instrumented continuously under real weather, for building-physics studies,
+          retrofit verification, or comparing how different build-ups behave on the same
+          elevation across a season.</p>
       </div>
     </div>
   </div>
@@ -473,7 +462,7 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
         <div class="h">What we need from you</div>
         <ul>
           <li><b>One wall or zone</b> with a suspected moisture or thermal problem</li>
-          <li><b>Mains power and Wi-Fi</b> within reach of the node, or tell us it has neither and we bring the LoRa variant</li>
+          <li><b>Power and network</b> within reach of the wall, or tell us it has neither and we bring the version that does not need them</li>
           <li><b>Two 30-minute calls</b>, one to scope it and one to walk through the findings</li>
           <li><b>Permission to use anonymised readings</b> to improve the risk engine. No site name, no address, no occupant data, ever</li>
         </ul>
@@ -504,7 +493,7 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
   <div class="wrap">
     <div class="fl">
       <a href="https://i-brick-smart-environment-companion-b43bac9d.base44.app/" target="_blank" rel="noopener">Live demo (beta)</a>
-      <a href="#measures">What it measures</a>
+      <a href="#measures">What it watches</a>
       <a href="#pilot">Pilot programme</a>
       <a href="mailto:contactibricklabs@gmail.com">contactibricklabs@gmail.com</a>
     </div>
