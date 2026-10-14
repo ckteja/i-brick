@@ -112,6 +112,8 @@ header .btn{padding:9px 16px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px}
 .card h3{margin-bottom:9px}
 .card p{color:var(--dim);font-size:15px}
+.card p.role{color:var(--cyan);font-size:12px;font-weight:600;letter-spacing:1.6px;
+  text-transform:uppercase;margin:6px 0 10px}
 
 .stat{background:linear-gradient(180deg,var(--panel-2),var(--panel));
   border:1px solid var(--line);border-radius:12px;padding:26px}
@@ -221,6 +223,19 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
 .ctrl button:hover{border-color:var(--cyan);color:var(--cyan)}
 .ctrl input[type=range]{flex:1;accent-color:var(--cyan);height:3px;cursor:pointer}
 .ctrl .clock{font-family:var(--display);font-size:14px;color:var(--faint);min-width:52px;text-align:right}
+.tbl-wrap{overflow-x:auto;margin-top:28px;border:1px solid var(--line);border-radius:12px}
+.tbl-wrap table{width:100%;border-collapse:collapse;min-width:640px;font-size:14.5px}
+.tbl-wrap th{text-align:left;padding:13px 18px;background:var(--panel-2);color:var(--faint);
+  font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;white-space:nowrap}
+.tbl-wrap td{padding:12px 18px;border-top:1px solid var(--line);color:var(--dim);vertical-align:top}
+.tbl-wrap td:first-child{color:var(--text);font-weight:500;white-space:nowrap}
+.tag-s{display:inline-block;padding:3px 10px;border-radius:999px;font-size:10.5px;font-weight:600;
+  letter-spacing:.6px;text-transform:uppercase;white-space:nowrap}
+.t-m{background:rgba(46,204,113,.13);color:#57D98D;border:1px solid rgba(46,204,113,.3)}
+.t-d{background:rgba(0,200,220,.12);color:var(--cyan);border:1px solid rgba(0,200,220,.3)}
+.t-e{background:rgba(243,156,18,.13);color:var(--warn);border:1px solid rgba(243,156,18,.32)}
+.t-u{background:rgba(122,146,152,.14);color:#9FB6C4;border:1px solid rgba(159,182,196,.26)}
+.t-r{background:rgba(196,83,26,.14);color:#E0793F;border:1px solid rgba(196,83,26,.34)}
 </style>
 </head>
 <body>
@@ -458,23 +473,22 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
       middle of the room, and reports what they mean rather than what they read.</p>
     <div class="grid g3" style="margin-top:36px">
       <div class="card">
-        <h3>Environmental</h3>
-        <p>Whether the wall is wetting, drying, or holding water it should have shed by now, and how
-          it responds to the weather working against it. This is the signal that separates a wall
-          recovering from one November storm from a wall that never recovers at all.</p>
+        <h3>Moisture at the surface</h3>
+        <p>Whether the wall is wetting, drying, or holding water it should have shed by now, and
+          how close the surface is to the point where mould starts. This is the signal that
+          separates a wall recovering from one November storm from a wall that never recovers.</p>
       </div>
       <div class="card">
-        <h3>Thermal</h3>
-        <p>How the wall performs against its own record, week on week. A section that starts
-          losing more heat than it used to is usually a section that has taken on water, so the
-          thermal signal corroborates the moisture one. It needs a real temperature difference
-          across the wall to mean anything, and in mild weather we say so rather than guess.</p>
+        <h3>How long it stays there</h3>
+        <p>Mould does not care about a peak, it cares about hours. A spot check with a meter
+          cannot see duration at all, so it reads a wet wall and a chronically wet wall the same
+          way. We count the time over the line, and that count is what drives the finding.</p>
       </div>
       <div class="card">
-        <h3>Indoor</h3>
-        <p>The conditions occupants are actually living in, and whether they track with what the wall
-          is doing or diverge from it. A divergence tells you the problem is the building, not the
-          household, which is usually the question in dispute.</p>
+        <h3>The room, for comparison</h3>
+        <p>What the occupant is living in, and whether the air is being changed. When the room
+          looks ordinary and the wall does not, the problem is the building rather than the
+          household, which is usually the question actually in dispute.</p>
       </div>
     </div>
     <p class="note"><b>The rule the product enforces:</b> when we have not measured something, we
@@ -482,6 +496,29 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
       modelled from that reading and labelled as modelled, never dressed up as a probe inside the
       masonry. A risk score that quietly treats “not measured” as “measured and fine” is worse than
       no score at all, so ours reports it as <em>unassessed</em> and moves on.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Channel</th><th>Status</th><th>Where the number comes from</th></tr></thead>
+        <tbody>
+          <tr><td>Temperature</td><td><span class="tag-s t-m">Measured</span></td><td>Sensor on the node, against the wall</td></tr>
+          <tr><td>Relative humidity</td><td><span class="tag-s t-m">Measured</span></td><td>Same sensor</td></tr>
+          <tr><td>Barometric pressure</td><td><span class="tag-s t-m">Measured</span></td><td>Same sensor</td></tr>
+          <tr><td>Gas resistance</td><td><span class="tag-s t-m">Measured</span></td><td>Metal-oxide element, the raw air-quality signal</td></tr>
+          <tr><td>Vibration</td><td><span class="tag-s t-m">Measured</span></td><td>Accelerometer, one sample per reading. Coarse by design, enough to flag a change, not enough to characterise a resonance</td></tr>
+          <tr><td>Dew point</td><td><span class="tag-s t-d">Derived</span></td><td>Thermodynamics, from temperature and humidity</td></tr>
+          <tr><td>Absolute humidity</td><td><span class="tag-s t-d">Derived</span></td><td>Thermodynamics, from temperature and humidity</td></tr>
+          <tr><td>Surface humidity</td><td><span class="tag-s t-e">Modelled</span></td><td>The surface is taken as 2 &deg;C below the air we measure. This is the number the mould line is judged against, and it is an estimate, not a probe reading</td></tr>
+          <tr><td>eCO&#8322; and TVOC</td><td><span class="tag-s t-e">Estimated</span></td><td>Inferred from the gas element. Not an NDIR CO&#8322; sensor, and we do not call it one</td></tr>
+          <tr><td>Vibration frequency</td><td><span class="tag-s t-u">Not measured</span></td><td>Needs burst sampling the node does not do. Stored empty rather than estimated</td></tr>
+          <tr><td>Heat flux</td><td><span class="tag-s t-u">Not measured</span></td><td>Needs a heat-flux plate this device does not carry, so thermal performance is reported as unassessed</td></tr>
+          <tr><td>Air infiltration</td><td><span class="tag-s t-u">Not measured</span></td><td>Needs a differential pressure sensor this device does not carry</td></tr>
+          <tr><td>Crack width and strain</td><td><span class="tag-s t-r">Roadmap</span></td><td>Needs a strain-gauge variant of the node. Not claimed today</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:14px;font-size:13px;color:var(--faint)">This is the product's own channel
+      registry, the same list the dashboard reads. A channel with no sensor behind it keeps its
+      row, its reason and its history, and is never charted as a measurement.</p>
   </div>
 </section>
 
@@ -613,6 +650,37 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
           <li><b>Two 30-minute calls</b>, one to scope it and one to walk through the findings</li>
           <li><b>Permission to use anonymised readings</b> to improve the risk engine. No site name, no address, no occupant data, ever</li>
         </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="wrap">
+    <span class="eyebrow">Who you would be working with</span>
+    <h2 class="mt14">Three people, one wall at a time.</h2>
+    <p class="lede">I-Brick is a small team, which is the point: in a pilot you talk to the people
+      who built the thing, not to an account manager. The node, the firmware, the risk engine and
+      the dashboard are all ours, so when a pilot turns up something we got wrong, it gets fixed
+      rather than filed.</p>
+    <div class="grid g3" style="margin-top:34px">
+      <div class="card">
+        <h3>Chandra Kiran Teja M</h3>
+        <p class="role">Platform, firmware and engine</p>
+        <p>Built the running system: the device firmware, the ingestion and analysis backend, the
+          risk engine around the original logic, and the dashboard your team would use.</p>
+      </div>
+      <div class="card">
+        <h3>Zahir</h3>
+        <p class="role">Risk model and building physics</p>
+        <p>Originated I-Brick and wrote the reasoning the engine is built on: the layered risk
+          analysis, the parameter logic, and the scenarios a wall is assessed against.</p>
+      </div>
+      <div class="card">
+        <h3>Glenn</h3>
+        <p class="role">Design and brand</p>
+        <p>Shaped how the product reads, from the dashboard's look to the way a finding is
+          presented so that a non-specialist can act on it.</p>
       </div>
     </div>
   </div>
