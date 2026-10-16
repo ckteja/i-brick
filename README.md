@@ -2,9 +2,11 @@
 
 Source for the I-Brick pilot-programme page: <https://ckteja.github.io/i-brick/>
 
-I-Brick is a sensor node that sits inside the wall and reports the moisture, thermal and
-air-quality conditions that drive building-envelope failure, as an explainable 0–100 risk
-score with the reasoning attached.
+I-Brick is an early-stage real-time structural health monitoring device and software platform.
+The current stage is MVP software with prototype hardware. Its broader development scope includes
+moisture and mould risk, structural deformation, and energy efficiency; the current prototype
+focuses on wall-adjacent environmental conditions, while other capabilities require further
+sensing and validation.
 
 **The pilot programme is open.** Four sites for Q4 2026, no cost, 12 weeks.
 Enquiries: <contactibricklabs@gmail.com>

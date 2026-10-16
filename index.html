@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>I-Brick | Continuous damp monitoring, wall by wall</title>
-<meta name="description" content="I-Brick fixes to the wall surface and reads the conditions that drive envelope failure, continuously, as a single explainable 0–100 risk score with the reasoning attached. Pilot programme open.">
+<title>I-Brick | Real-Time Structural Health Monitoring</title>
+<meta name="description" content="I-Brick is an early-stage real-time structural health monitoring device and platform. Its developing scope includes moisture and mould risk, structural deformation, and energy efficiency.">
 <link rel="canonical" href="https://ckteja.github.io/i-brick/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="I-Brick">
-<meta property="og:title" content="I-Brick | Continuous damp monitoring, wall by wall">
-<meta property="og:description" content="Catch envelope moisture while the fix is still cheap. An explainable 0–100 risk score and a report an engineer can act on. Pilot programme open, starting Q4 2026.">
+<meta property="og:title" content="I-Brick | Real-Time Structural Health Monitoring">
+<meta property="og:description" content="A real-time building health monitoring device and platform in development, spanning moisture and mould risk, structural deformation, and energy efficiency. Current stage: MVP software and prototype hardware.">
 <meta property="og:url" content="https://ckteja.github.io/i-brick/">
 <meta property="og:image" content="https://ckteja.github.io/i-brick/assets/og.png">
 <meta property="og:image:width" content="1200">
@@ -103,6 +103,14 @@ header .btn{padding:9px 16px}
 .spec{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:44px;padding-top:22px;border-top:1px solid var(--line)}
 .spec span{font-size:12.5px;color:var(--faint);letter-spacing:.3px}
 .spec b{color:var(--dim);font-weight:600}
+.stage-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;margin-top:34px}
+.stage-fact{padding-top:16px;border-top:1px solid var(--line-2)}
+.stage-label{display:block;font-size:11px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;color:var(--faint)}
+.stage-fact strong{display:block;margin-top:10px;font-family:var(--display);font-size:25px;
+  line-height:1.15;color:var(--cyan)}
+.stage-fact p{margin-top:8px;color:var(--dim);font-size:14px}
+@media(max-width:640px){.stage-grid{grid-template-columns:1fr;gap:22px}}
 
 /* blocks */
 .grid{display:grid;gap:18px}
@@ -262,14 +270,14 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
       </svg>
       <span>
         <span class="wm"><span class="lt">I</span><span class="dot">-</span>Brick</span>
-        <small>Intelligent monitoring for all wall systems</small>
+        <small>Real-time structural health monitoring</small>
       </span>
     </a>
     <nav>
+      <a href="#stage">Development stage</a>
       <a href="#replay">Watch it happen</a>
-      <a href="#how">How it works</a>
+       <a href="#how">How it works</a>
       <a href="#measures">What it watches</a>
-      <a href="#engine">What it is worth</a>
       <a href="#pilot">Pilot</a>
       <a class="btn btn-p" href="#contact">Apply for a pilot</a>
     </nav>
@@ -286,45 +294,70 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
     <rect width="100%" height="100%" fill="url(#brickwork)"/>
   </svg>
   <div class="wrap">
-    <span class="chip"><span class="pulse"></span> Pilot programme open · 4 sites, starting Q4 2026</span>
-    <h1>By the time you can see the damp patch, it has been <em>growing for months</em>.</h1>
-    <p class="lede">I-Brick fixes to the wall surface and watches the conditions that drive
-      envelope failure, continuously, turning them into a single 0–100 risk score with the
-      reasoning attached. You get a decision about that wall, not a raw data dump.</p>
+    <span class="chip"><span class="pulse"></span> In development · MVP software · Prototype hardware</span>
+    <h1>See building health change, <em>before damage appears</em>.</h1>
+    <p class="lede">I-Brick is being developed as a real-time structural health monitoring device and
+      platform. Its broader scope brings together moisture and mould risk, structural deformation,
+      and energy efficiency, with capabilities expanding beyond the current prototype.</p>
     <div class="cta">
       <a class="btn btn-p" href="#contact">Apply for a pilot →</a>
-      <a class="btn btn-s" href="#replay">Watch it on a real wall</a>
+      <a class="btn btn-s" href="#stage">See development stage</a>
     </div>
     <div class="spec">
-      <span><b>Install:</b> fixed to the wall surface, no chasing, no disruption</span>
-      <span><b>Runs:</b> continuously, reporting on its own</span>
-      <span><b>Output:</b> live dashboard · alerts · engineer-ready report</span>
+      <span><b>Current build:</b> MVP software and prototype hardware</span>
+      <span><b>Platform direction:</b> continuous building-health monitoring</span>
+      <span><b>Product status:</b> early stage, not a finished product</span>
     </div>
   </div>
 </div>
 
+<section id="stage">
+  <div class="wrap">
+    <span class="eyebrow">Development status</span>
+    <h2 class="mt14">A structural health platform in development.</h2>
+    <p class="lede">I-Brick is at an early stage and is not yet a finished product. The current build
+      pairs an MVP software platform with prototype hardware; the wider monitoring scope is being
+      developed and validated over time.</p>
+    <div class="stage-grid">
+      <div class="stage-fact">
+        <span class="stage-label">Current stage</span>
+        <strong>MVP software + prototype hardware</strong>
+        <p>Early build for development and validation.</p>
+      </div>
+      <div class="stage-fact">
+        <span class="stage-label">Next milestone</span>
+        <strong>To be announced</strong>
+        <p>Milestone details will be added here once finalized.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="why">
   <div class="wrap">
-    <span class="eyebrow">The problem</span>
-    <h2 class="mt14">Damp is the most common building defect, and the last one anyone measures.</h2>
-    <p class="lede">Envelope moisture gets diagnosed visually, after the fact, by whoever happens to be
-      standing in the room. The conditions that caused it were building for months on a wall
-      nobody was measuring.</p>
+    <span class="eyebrow">Platform scope</span>
+    <h2 class="mt14">Building health is more than one signal.</h2>
+    <p class="lede">The platform is intended to bring multiple building-health signals into one
+      continuous view. The current prototype focuses on environmental conditions; the broader
+      capabilities below are development directions, not finished product features.</p>
     <div class="grid g3" style="margin-top:36px">
-      <div class="stat">
-        <b>15.6%</b>
-        <p>of the EU population lives in a dwelling with a leaking roof, damp walls or floors, or rot in the window frames.</p>
-        <cite>Eurostat, EU-SILC housing quality, 2024 · <a href="https://ec.europa.eu/eurostat/web/interactive-publications/housing-2024" target="_blank" rel="noopener">source</a></cite>
+      <div class="card">
+        <h3>Moisture and mould risk</h3>
+        <p class="role">Current prototype focus</p>
+        <p>The MVP analyzes wall-adjacent temperature and humidity to estimate conditions associated
+          with moisture accumulation and mould risk. This is one use case within a broader platform.</p>
       </div>
-      <div class="stat">
-        <b>75%</b>
-        <p>higher risk of respiratory symptoms and asthma for occupants of damp or mouldy buildings, against comparable dry ones.</p>
-        <cite>WHO Guidelines for Indoor Air Quality: Dampness and Mould · <a href="https://www.who.int/publications/i/item/9789289041683" target="_blank" rel="noopener">source</a></cite>
+      <div class="card">
+        <h3>Structural deformation</h3>
+        <p class="role">Development direction</p>
+        <p>Future monitoring may track movement and strain over time. Additional sensing hardware
+          and validation are needed before this is an available product capability.</p>
       </div>
-      <div class="stat">
-        <b>22.6%</b>
-        <p>of US home insurance claims are water damage and freezing, the second most common cause of loss. The average claim is $15,400.</p>
-        <cite>Insurance Information Institute, 2023 claim year · <a href="https://www.iii.org/fact-statistic/facts-statistics-homeowners-and-renters-insurance" target="_blank" rel="noopener">source</a></cite>
+      <div class="card">
+        <h3>Energy efficiency</h3>
+        <p class="role">Development direction</p>
+        <p>The long-term scope includes connecting building-condition and thermal-performance
+          trends to energy efficiency. This is not yet a validated output of the current MVP.</p>
       </div>
     </div>
   </div>
@@ -332,11 +365,11 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
 
 <section id="replay">
   <div class="wrap">
-    <span class="eyebrow">Watch it happen</span>
-    <h2 class="mt14">Five hours on a real wall, in twenty seconds.</h2>
-    <p class="lede">Not a simulation. This is 4,054 readings from one instrumented wall on
-      4 April 2026, a controlled wetting test run to see what the engine does when a wall takes on
-      water and then dries again. Watch the room and the wall disagree.</p>
+    <span class="eyebrow">Prototype demonstration · moisture conditions</span>
+    <h2 class="mt14">Five hours of wall monitoring, in twenty seconds.</h2>
+    <p class="lede">This is the current prototype's moisture-monitoring use case, not the full scope
+      of I-Brick. It shows 4,054 readings from one instrumented wall on 4 April 2026, during a
+      controlled wetting test. Watch the room and the wall disagree.</p>
 
     <div class="replay">
       <div class="scene">
@@ -424,11 +457,12 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
       </div>
     </div>
 
-    <p class="note"><b>Minute 120 is the entire product.</b> The room read 71.8%, which any
+    <p class="note"><b>Minute 120 shows one use case.</b> The room read 71.8%, which any
       occupant would call a bit stuffy and any room sensor would call fine. The wall surface was
       already at 81%, over the line where mould starts. The wall then held above that line for
       <b>126 minutes</b> before it began to dry, and the engine counted every one of them, because
-      duration is what turns a damp spell into damage.</p>
+      duration is what turns a damp spell into damage. The same platform is being developed toward
+      a broader view of building health.</p>
   </div>
 </section>
 
@@ -472,11 +506,11 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
 
 <section id="measures">
   <div class="wrap">
-    <span class="eyebrow">What it watches</span>
-    <h2 class="mt14">Three things worth knowing about a wall.</h2>
-    <p class="lede">A wall fails slowly, and it signals long before anyone sees a stain. I-Brick
-      watches the three families of condition that matter, at the wall surface rather than in the
-      middle of the room, and reports what they mean rather than what they read.</p>
+    <span class="eyebrow">Current prototype</span>
+    <h2 class="mt14">Environmental signals at the wall surface.</h2>
+    <p class="lede">The current software MVP analyzes wall-adjacent temperature and humidity and
+      derives related conditions. This is the prototype's present focus; structural deformation
+      and energy-efficiency monitoring remain development directions.</p>
     <div class="grid g3" style="margin-top:36px">
       <div class="card">
         <h3>Moisture at the surface</h3>
@@ -532,11 +566,11 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
 
 <section id="engine">
   <div class="wrap">
-    <span class="eyebrow">What it is worth</span>
-    <h2 class="mt14">Cheap while it is still condensation. Expensive once it is a repair.</h2>
-    <p class="lede">Envelope moisture is not a sudden event, it is a slow one that gets priced at the
-      end. Every month it runs undetected moves it further up a cost curve that starts at ventilation
-      and ends at replacing fabric, relocating an occupant, or arguing liability with a lawyer.</p>
+    <span class="eyebrow">One use case: moisture risk</span>
+    <h2 class="mt14">An early signal can change the response.</h2>
+    <p class="lede">This example shows how continuous monitoring could help teams respond to a slow
+      building-condition change sooner. Moisture is the current prototype use case; the platform's
+      intended scope extends to other structural and performance signals as capabilities mature.</p>
 
     <div class="grid g3" style="margin-top:36px">
       <div class="card">
@@ -583,11 +617,11 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
 
 <section id="product">
   <div class="wrap">
-    <span class="eyebrow">The platform</span>
-    <h2 class="mt14">Built, running, and boring to operate.</h2>
-    <p class="lede">The dashboard is live today, not a render. Your team sees the walls they are
-      responsible for, ranked by what needs attention, and takes away a document an engineer or an
-      insurer will accept.</p>
+    <span class="eyebrow">Software MVP</span>
+    <h2 class="mt14">The monitoring platform is taking shape.</h2>
+    <p class="lede">The dashboard shown is the current software MVP, paired with prototype hardware.
+      It demonstrates how readings can become building-level views, alerts, and reports; the product
+      is still under development and has not yet reached finished-product status.</p>
     <div class="shots">
       <figure style="max-width: 1035px;">
         <div class="shot">
@@ -618,15 +652,15 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
       </div>
       <div class="card">
         <h3>Housing providers &amp; property managers</h3>
-        <p>Damp and mould complaints are becoming a legal exposure, not a maintenance ticket.
-          Continuous evidence lets you triage which reports are urgent, and show when a case
-          was acted on.</p>
+        <p>Continuous building-condition records can help teams triage issues across a portfolio,
+          from moisture concerns to changes in thermal performance or structural condition as
+          monitoring capabilities mature.</p>
       </div>
       <div class="card">
         <h3>Engineering &amp; research groups</h3>
-        <p>A wall instrumented continuously under real weather, for building-physics studies,
-          retrofit verification, or comparing how different build-ups behave on the same
-          elevation across a season.</p>
+        <p>Support building-physics and structural-health research through continuous monitoring,
+          prototype validation, retrofit studies, and future comparisons of movement and energy
+          performance across building systems.</p>
       </div>
     </div>
   </div>
@@ -635,15 +669,15 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
 <section id="pilot">
   <div class="wrap">
     <span class="eyebrow">The offer</span>
-    <h2 class="mt14">A 12-week pilot, at no cost, on one wall that worries you.</h2>
-    <p class="lede">We are taking four sites in this round. We would rather instrument a wall with a
-      known problem than a perfect one: the corner that keeps coming back, the flat with repeat
-      complaints, the retrofit you want verified.</p>
+    <h2 class="mt14">A no-cost, 25-week pilot to validate the prototype.</h2>
+    <p class="lede">We are taking four sites in this round. The pilot is an opportunity to test the
+      current software MVP and prototype hardware in a real building, learn from a meaningful
+      condition or performance question, and shape what I-Brick develops next.</p>
     <div class="grid g2" style="margin-top:34px">
       <div class="pilot">
         <div class="h">What you get</div>
         <ul>
-          <li><b>Up to 6 sensor nodes</b>, configured and shipped to your site</li>
+          <li><b>Up to 6 prototype sensor nodes</b>, configured and shipped to your site</li>
           <li><b>Installation support</b>, remote or on site where travel allows</li>
           <li><b>Dashboard access</b> for your team for the full pilot</li>
           <li><b>A weekly summary</b> of what the wall did and what changed</li>
@@ -667,7 +701,7 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
 <section id="team">
   <div class="wrap">
     <span class="eyebrow">Who you would be working with</span>
-    <h2 class="mt14">Three people, one wall at a time.</h2>
+    <h2 class="mt14">Three people building I-Brick together.</h2>
     <p class="lede">I-Brick is a small team, which is the point: in a pilot you talk to the people
       who built the thing, not to an account manager. The node, the firmware, the risk engine and
       the dashboard are all ours, so when a pilot turns up something we got wrong, it gets fixed
@@ -714,8 +748,8 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
   <div class="wrap">
     <div class="contact">
       <span class="eyebrow">Get in touch</span>
-      <h2 class="mt14">Tell us about the wall.</h2>
-      <p class="lede">A few short questions about the building and the problem, and you are done.
+      <h2 class="mt14">Tell us about the building.</h2>
+      <p class="lede">A few short questions about the building and what you need to monitor, and you are done.
         We reply to every application, including the ones we cannot take on.</p>
       <div class="cta">
         <a class="btn btn-p" href="https://forms.gle/VWR9UVNEPjjHohVm7" target="_blank" rel="noopener">Start the 2-minute application</a>
