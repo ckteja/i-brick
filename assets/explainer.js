@@ -233,7 +233,10 @@
   var LAYERS = [
     'THERMAL', 'CONDENSATION', 'INSULATION', 'AIR QUALITY', 'GAS SIGNAL',
     'VIBRATION', 'SUDDEN CHANGE', 'SEASONAL', 'STRUCTURAL TREND',
-    'ENERGY EFFICIENCY'
+    /* the module is energy_efficiency.py, but what the layer emits is
+     * scenario "energy_inefficiency" and "Energy inefficiency score is
+     * elevated", so the label follows the finding rather than the filename */
+    'ENERGY INEFFICIENCY'
   ];
   var MODEL_LAYER = 'ANOMALY MODEL';
   /* app/engine/core/scoring.py STATUS_BANDS, best first. */
