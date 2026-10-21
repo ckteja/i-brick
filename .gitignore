@@ -1,3 +1,6 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Build artifact: regenerate with `node tools/render-mp4.mjs`
+dist/

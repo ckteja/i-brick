@@ -66,6 +66,7 @@ nav{margin-left:auto;display:flex;align-items:center;gap:26px}
 nav a{color:var(--dim);font-size:14px;font-weight:500}
 nav a:hover{color:var(--text);text-decoration:none}
 @media(max-width:860px){nav a:not(.btn){display:none}}
+@media(max-width:1040px){nav a.nav-film{display:none}}
 @media(max-width:520px){
   .bar{gap:10px}
   .brand small{display:none}
@@ -250,6 +251,42 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
 .t-e{background:rgba(243,156,18,.13);color:var(--warn);border:1px solid rgba(243,156,18,.32)}
 .t-u{background:rgba(122,146,152,.14);color:#9FB6C4;border:1px solid rgba(159,182,196,.26)}
 .t-r{background:rgba(196,83,26,.14);color:#E0793F;border:1px solid rgba(196,83,26,.34)}
+
+/* explainer film */
+.film{margin-top:34px}
+.stage{position:relative;background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;overflow:hidden}
+.stage canvas{display:block;width:100%;height:auto;background:var(--ink)}
+.poster{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(8,17,27,.5);border:0;cursor:pointer;padding:0}
+.poster:hover{background:rgba(8,17,27,.34)}
+.poster span{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:999px;
+  background:var(--cyan);color:#04222A;font-family:var(--sans);font-size:14px;font-weight:600}
+.fcap{margin-top:16px;font-size:16.5px;color:var(--text);line-height:1.5;max-width:78ch;min-height:3.1em}
+.fctrl{display:flex;align-items:center;gap:13px;margin-top:12px}
+.fctrl button{background:transparent;border:1px solid var(--line-2);color:var(--text);
+  font-family:var(--sans);font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:7px;
+  cursor:pointer;min-width:74px}
+.fctrl button:hover{border-color:var(--cyan);color:var(--cyan)}
+.fctrl input[type=range]{flex:1;accent-color:var(--cyan);height:3px;cursor:pointer;min-width:60px}
+.fctrl .clock{font-family:var(--display);font-size:14px;color:var(--faint);min-width:86px;text-align:right}
+.fchap{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0;padding:0;list-style:none}
+.fchap button{background:transparent;border:1px solid var(--line);color:var(--faint);
+  font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.5px;
+  padding:5px 10px;border-radius:6px;cursor:pointer}
+.fchap button:hover{border-color:var(--line-2);color:var(--dim)}
+.fchap button[aria-current=true]{border-color:var(--cyan);color:var(--cyan);background:rgba(0,200,220,.07)}
+.ftext{margin-top:18px;font-size:14px}
+.ftext summary{cursor:pointer;color:var(--dim);font-size:14px}
+.ftext ol{margin:12px 0 0;padding-left:22px;color:var(--dim);font-size:14.5px;line-height:1.55}
+.ftext li{margin-bottom:7px}
+.ftext li b{color:var(--text);font-weight:600}
+@media(max-width:640px){.fcap{font-size:15.5px;min-height:4.5em}}
+@media(max-width:560px){
+  .fctrl{flex-wrap:wrap}
+  .fctrl input[type=range]{order:3;flex-basis:100%;min-width:0;margin-top:4px}
+  .fctrl .clock{margin-left:auto}
+}
 </style>
 </head>
 <body>
@@ -275,6 +312,7 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
     </a>
     <nav>
       <a href="#stage">Development stage</a>
+      <a href="#explainer" class="nav-film">In 40 seconds</a>
       <a href="#replay">Watch it happen</a>
        <a href="#how">How it works</a>
       <a href="#measures">What it watches</a>
@@ -330,6 +368,50 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
         <p>Milestone details will be added here once finalized.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="explainer">
+  <div class="wrap">
+    <span class="eyebrow">The short version</span>
+    <h2 class="mt14">Understand your building, before damage shows.</h2>
+    <p class="lede">Forty seconds on what the prototype reads at the wall, and on what the
+      engine puts around a reading — the material it is judging, the weather where the
+      building stands, the month, and seven days of the wall's own history. Then what that
+      looked like on a real instrumented wall. No sound needed.</p>
+
+    <div class="film">
+      <div class="stage">
+        <canvas id="fcanvas" role="img"
+          aria-label="Animated explainer: a damp bloom rewound to its start, an illustrative wall cross-section, the node fixed to the wall surface, the material, location, seasonal and long-term context the engine judges a reading against, the analysis layers, and a recorded wetting test in which the room read 71.8% while the modelled wall surface was already at 81%."></canvas>
+        <button class="poster" id="fposter" type="button">
+          <span>&#9654; Play the 40-second explainer</span>
+        </button>
+      </div>
+      <p class="fcap" id="fcap" aria-live="polite"></p>
+      <div class="fctrl">
+        <button id="fplay" type="button">Play</button>
+        <button id="freplay" type="button">Replay</button>
+        <input id="fscrub" type="range" min="0" max="1000" value="0" step="1" aria-label="Scrub the explainer">
+        <span class="clock" id="fclock">0:00</span>
+      </div>
+      <ul class="fchap" id="fchap"></ul>
+      <details class="ftext">
+        <summary>Read it as text</summary>
+        <ol id="ftranscript"></ol>
+      </details>
+    </div>
+
+    <p class="note"><b>What is real in it, and what is drawing.</b> The cross-section is
+      illustrative and labelled as such. The readings, the band and the 126 minutes over the
+      mould line are taken from a recorded controlled wetting test on one instrumented wall,
+      4 April 2026, 4,054 readings; the wall surface figure is modelled from the measured air and
+      labelled modelled wherever it appears. The dashboard in it is the current software MVP,
+      not a finished product. The material profiles, the weather lookup on the building's
+      coordinates, the monthly comparison and the seven-day trend are all in the engine today;
+      movement and strain are a development direction and the film says so on screen. No
+      forecast is shown, because the forecast in the software is still a shadow log rather
+      than something we would put in front of you.</p>
   </div>
 </section>
 
@@ -876,6 +958,145 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
     },{threshold:.35}).observe(document.getElementById('replay'));
   } else { start(); }
 })();
+</script>
+
+<script src="assets/explainer.js"></script>
+<script>
+/* The explainer player. Everything it draws, and every word it shows, comes
+ * from assets/explainer.js, which is the same file the MP4 is rendered from.
+ * This script only decides how big the canvas is and when time advances. */
+(function () {
+  var F = window.IBrickExplainer;
+  var canvas = document.getElementById('fcanvas');
+  /* No canvas, or the film did not load: leave a player that cannot play out
+   * of the page rather than an empty box with a dead button. */
+  if (!F || !canvas || !canvas.getContext) {
+    var film = document.querySelector('#explainer .film');
+    if (film) film.style.display = 'none';
+    return;
+  }
+
+  var stage = canvas.parentNode, poster = document.getElementById('fposter'),
+      capEl = document.getElementById('fcap'), playBtn = document.getElementById('fplay'),
+      replayBtn = document.getElementById('freplay'), scrub = document.getElementById('fscrub'),
+      clock = document.getElementById('fclock'), chapEl = document.getElementById('fchap'),
+      transEl = document.getElementById('ftranscript');
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DUR = F.DURATION;
+  var ex = F.create(canvas, { assets: 'assets/' });
+
+  /* chapter buttons and the text version, both built from the scene list so
+   * there is no second copy of the words to fall out of date */
+  var chapBtns = [];
+  F.SCENES.forEach(function (sc, i) {
+    var li = document.createElement('li');
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = (i + 1 < 10 ? '0' : '') + (i + 1) + '  ' + sc.title;
+    b.addEventListener('click', function () { stop(); seek(F.STARTS[i] + 0.01); });
+    li.appendChild(b); chapEl.appendChild(li); chapBtns.push(b);
+
+    var item = document.createElement('li');
+    item.innerHTML = '<b></b> ';
+    item.firstChild.textContent = sc.title + '. ';
+    item.appendChild(document.createTextNode(sc.caption));
+    transEl.appendChild(item);
+  });
+
+  function fmt(t) {
+    var s = Math.max(0, Math.round(t));
+    return Math.floor(s / 60) + ':' + (s % 60 < 10 ? '0' : '') + (s % 60);
+  }
+
+  var t = 0, playing = false, raf = 0, last = 0, scene = -1;
+
+  /* 16:9 on anything with room for it; 4:3 on a phone, where a 16:9 strip
+   * leaves the labels too small to read */
+  function size() {
+    var cssW = stage.clientWidth;
+    if (!cssW) return;
+    /* the shorter the box, the taller it gets: a 16:9 strip on a phone is
+     * 200 px high, and nothing drawn in it can be read */
+    var ratio = cssW >= 700 ? 9 / 16 : cssW >= 520 ? 3 / 4 : 1;
+    var cssH = Math.round(cssW * ratio);
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.style.height = cssH + 'px';
+    canvas.width = Math.round(cssW * dpr);
+    canvas.height = Math.round(cssH * dpr);
+    ex.compact = cssW < 700;
+    /* The film is drawn in a space 1080 units tall. In the box the page gives
+     * it that unit is worth cssH/1080 of a CSS pixel, so the smallest label,
+     * 13 units, would come out at 7 px on a laptop and 3 px on a phone. The
+     * scale lifts the labels back to about 9.5 px; the figures they sit under
+     * carry noScale and keep the proportions they were drawn at. */
+    ex.typeScale = Math.max(1, Math.min(2.5, 789 / cssH));
+    ex.seek(t);
+  }
+
+  function paint() {
+    ex.seek(t);
+    var i = ex.sceneAt(t);
+    if (i !== scene) {
+      scene = i;
+      capEl.textContent = F.SCENES[i].caption;
+      for (var k = 0; k < chapBtns.length; k++) {
+        chapBtns[k].setAttribute('aria-current', k === i ? 'true' : 'false');
+      }
+    }
+    scrub.value = Math.round(t / DUR * 1000);
+    clock.textContent = fmt(t) + ' / ' + fmt(DUR);
+  }
+  function seek(v) { t = Math.max(0, Math.min(DUR, v)); paint(); }
+
+  function frame(ts) {
+    if (!playing) return;
+    t += Math.min(0.1, (ts - last) / 1000);
+    last = ts;
+    if (t >= DUR) { t = DUR; paint(); stop(); return; }
+    paint();
+    raf = requestAnimationFrame(frame);
+  }
+  function start() {
+    if (playing) return;
+    if (t >= DUR) t = 0;
+    playing = true;
+    poster.style.display = 'none';
+    playBtn.textContent = 'Pause';
+    last = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function stop() {
+    playing = false;
+    cancelAnimationFrame(raf);
+    playBtn.textContent = t >= DUR ? 'Replay' : 'Play';
+  }
+
+  playBtn.addEventListener('click', function () { playing ? stop() : start(); });
+  poster.addEventListener('click', start);
+  replayBtn.addEventListener('click', function () { t = 0; paint(); start(); });
+  scrub.addEventListener('input', function () { stop(); seek(scrub.value / 1000 * DUR); });
+
+  if (window.ResizeObserver) new ResizeObserver(size).observe(stage);
+  else window.addEventListener('resize', size);
+
+  ex.ready.then(function () {
+    size();
+    /* Reduced motion gets the frame the film is about, held still, and is
+     * never started for them. The controls still work if they want it. */
+    if (reduce) { seek(F.STARTS[4] + 4.2); playBtn.textContent = 'Play'; return; }
+    seek(0);
+    if ('IntersectionObserver' in window) {
+      var seen = false;
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting && !seen) { seen = true; start(); }
+          else if (!e.isIntersecting && playing) { stop(); }
+        });
+      }, { threshold: 0.4 }).observe(document.getElementById('explainer'));
+    }
+  });
+}());
 </script>
 </body>
 </html>

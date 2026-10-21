@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>I-Brick explainer — check the export</title>
+<!-- Decodes the exported MP4 and lays frames out as a contact sheet, so what
+     gets checked is the delivered file rather than the page it came from.
+     Open it over the local server (python -m http.server 8777) at
+     /tools/verify-mp4.html, or point it elsewhere with ?src=<url>.
+     Reports the duration and size the browser reads from the file itself. -->
+<style>
+  html,body{margin:0;background:#08111B;color:#E4EFF5;
+    font:14px/1.5 "Inter",system-ui,sans-serif}
+  #sheet{display:block;width:100%;height:auto}
+  p{margin:10px 14px;color:#9FB6C4;font-size:13px}
+  b{color:#E4EFF5}
+</style>
+</head>
+<body>
+<p id="meta">loading…</p>
+<canvas id="sheet"></canvas>
+<script>
+(function () {
+  'use strict';
+  var q = new URLSearchParams(location.search);
+  var src = q.get('src') || '../dist/ibrick-explainer.mp4';
+  var COLS = 3, CELL_W = 640, CELL_H = 360;
+
+  var v = document.createElement('video');
+  v.preload = 'auto'; v.muted = true;
+
+  function at(t) {
+    return new Promise(function (res) {
+      var done = false;
+      function finish() {
+        if (done) return;
+        done = true;
+        /* a beat after the seek event, or the decoder can still be showing
+         * the frame before the one that was asked for. A timer rather than
+         * requestAnimationFrame, which does not run in headless Chrome. */
+        setTimeout(res, 120);
+      }
+      v.onseeked = finish;
+      v.currentTime = t;
+      setTimeout(finish, 4000);
+    });
+  }
+
+  async function run() {
+    var dur = v.duration;
+    /* one frame from the middle of each scene, plus the first and last */
+    var marks = [0.3];
+    var n = Number(q.get('n') || 10);
+    for (var i = 1; i <= n; i++) marks.push(dur * i / (n + 1));
+    marks.push(dur - 0.25);
+
+    var rows = Math.ceil(marks.length / COLS);
+    var c = document.getElementById('sheet');
+    c.width = COLS * CELL_W; c.height = rows * CELL_H;
+    var ctx = c.getContext('2d');
+    ctx.fillStyle = '#05080C'; ctx.fillRect(0, 0, c.width, c.height);
+
+    for (var k = 0; k < marks.length; k++) {
+      await at(marks[k]);
+      var x = (k % COLS) * CELL_W, y = Math.floor(k / COLS) * CELL_H;
+      ctx.drawImage(v, x + 2, y + 2, CELL_W - 4, CELL_H - 4);
+      ctx.strokeStyle = 'rgba(0,200,220,.55)'; ctx.lineWidth = 2;
+      ctx.strokeRect(x + 2, y + 2, CELL_W - 4, CELL_H - 4);
+      ctx.fillStyle = 'rgba(8,17,27,.85)';
+      ctx.fillRect(x + 2, y + 2, 92, 26);
+      ctx.fillStyle = '#00C8DC';
+      ctx.font = '600 15px "Inter",system-ui,sans-serif';
+      ctx.fillText(marks[k].toFixed(2) + ' s', x + 12, y + 20);
+    }
+
+    document.getElementById('meta').innerHTML =
+      '<b>' + src + '</b> &nbsp; decoded ' + v.videoWidth + '×' + v.videoHeight +
+      ' &nbsp; duration <b>' + dur.toFixed(3) + ' s</b> &nbsp; ' + marks.length + ' frames sampled';
+    document.title = 'DONE';
+  }
+
+  /* The export is a fragmented MP4: a player that reads its metadata while the
+   * file is still arriving reports the duration of what it has so far, which
+   * was 3.4 s of a 42 s film the first time this ran. Fetching the whole file
+   * and handing the video a blob removes the question. */
+  fetch(src).then(function (r) {
+    if (!r.ok) throw new Error(r.status + ' ' + r.statusText);
+    return r.blob();
+  }).then(function (b) {
+    document.getElementById('meta').textContent =
+      'loaded ' + (b.size / 1048576).toFixed(2) + ' MB, decoding…';
+    v.onloadedmetadata = run;
+    v.onerror = function () { throw new Error('decode failed'); };
+    v.src = URL.createObjectURL(b);
+  }).catch(function (e) {
+    document.getElementById('meta').textContent = 'could not load ' + src + ': ' + e.message;
+    document.title = 'ERROR';
+  });
+}());
+</script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>I-Brick explainer — render harness</title>
+<!-- Not part of the published page. This is the surface the MP4 is rendered
+     from: the same assets/explainer.js the site plays, drawn at 1920x1080 with
+     the captions burnt in, stepped one frame at a time and recorded straight
+     out of the canvas. Chrome's own H.264 encoder does the encoding, so there
+     is no screen capture and no encoder dependency.
+
+       ?record=1     record the film and POST it to the exporter
+       ?still=12.5   draw one frame and stop, for a screenshot
+-->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;background:#08111B;overflow:hidden}
+  canvas{display:block;width:1920px;height:1080px}
+</style>
+</head>
+<body>
+<canvas id="film" width="1920" height="1080"></canvas>
+<script src="../assets/explainer.js"></script>
+<script>
+(function () {
+  'use strict';
+  var FPS = 30;
+  var q = new URLSearchParams(location.search);
+  var canvas = document.getElementById('film');
+  var ex = window.IBrickExplainer.create(canvas, {
+    burnCaptions: true, assets: '../assets/', typeScale: 1, compact: false
+  });
+  window.__ex = ex;
+  window.__seek = function (t) { ex.seek(t); };
+  window.__state = 'loading';
+
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+  /* setTimeout lands within a few milliseconds, which is enough jitter to make
+   * the recorded frame intervals wander. Sleep until just short of the mark and
+   * spin the last of it: a frame costs about 0.2 ms to draw, so the spin is
+   * cheap and the frame timestamps come out close to exactly 1/30 s apart. */
+  async function waitUntil(t) {
+    var gap = t - performance.now();
+    if (gap > 3) await sleep(gap - 2);
+    while (performance.now() < t) { /* spin */ }
+  }
+
+  /* Draw every scene once before recording. The first frame of a scene costs
+   * 20-30 ms in font, gradient and JIT work that later frames do not, and that
+   * cost inside the recording is exactly where a dropped frame comes from. */
+  function warmUp() {
+    var N = Math.round(ex.duration * FPS);
+    for (var n = 0; n < N; n += 3) ex.seek(n / FPS);
+    ex.seek(0);
+  }
+
+  function pickType() {
+    var want = ['video/mp4;codecs=avc1.640028', 'video/mp4;codecs=avc1.42E01E',
+      'video/mp4', 'video/webm;codecs=vp9'];
+    for (var i = 0; i < want.length; i++) {
+      if (window.MediaRecorder && MediaRecorder.isTypeSupported(want[i])) return want[i];
+    }
+    return '';
+  }
+
+  /* ── the MP4 the encoder's output goes into ──────────────────────────────
+   * A plain progressive MP4: ftyp, one mdat holding every sample, then a moov
+   * describing them. Written by hand because WebCodecs hands back raw H.264
+   * access units and nothing in the browser will wrap them.
+   */
+  function cat(parts) {
+    var n = 0, i;
+    for (i = 0; i < parts.length; i++) n += parts[i].length;
+    var out = new Uint8Array(n), at = 0;
+    for (i = 0; i < parts.length; i++) { out.set(parts[i], at); at += parts[i].length; }
+    return out;
+  }
+  function s4(s) {
+    var a = new Uint8Array(s.length);
+    for (var i = 0; i < s.length; i++) a[i] = s.charCodeAt(i) & 255;
+    return a;
+  }
+  function u32(n) { return new Uint8Array([n >>> 24 & 255, n >>> 16 & 255, n >>> 8 & 255, n & 255]); }
+  function u16(n) { return new Uint8Array([n >> 8 & 255, n & 255]); }
+  function zeros(n) { return new Uint8Array(n); }
+  function box(type) {
+    var body = cat([].slice.call(arguments, 1));
+    return cat([u32(body.length + 8), s4(type), body]);
+  }
+  function full(type, version, flags) {
+    var body = cat([].slice.call(arguments, 3));
+    return box(type, new Uint8Array([version, flags >> 16 & 255, flags >> 8 & 255, flags & 255]), body);
+  }
+
+  /* samples: [{bytes, key}], avcC: the encoder's decoderConfig.description */
+  function muxMp4(samples, avcC, width, height, fps) {
+    var i, n = samples.length;
+    var timescale = fps * 1000, delta = 1000;          /* exactly fps, no drift */
+    var durationTicks = n * delta;
+    var movieTimescale = 1000;
+    var movieDuration = Math.round(durationTicks / timescale * movieTimescale);
+
+    var mdatPayload = cat(samples.map(function (s) { return s.bytes; }));
+    var ftyp = box('ftyp', s4('isom'), u32(512), s4('isom'), s4('iso2'), s4('avc1'), s4('mp41'));
+    var mdat = cat([u32(mdatPayload.length + 8), s4('mdat'), mdatPayload]);
+    var firstSampleOffset = ftyp.length + 8;
+
+    var unityMatrix = cat([u32(0x00010000), u32(0), u32(0), u32(0), u32(0x00010000),
+      u32(0), u32(0), u32(0), u32(0x40000000)]);
+
+    var mvhd = full('mvhd', 0, 0, u32(0), u32(0), u32(movieTimescale), u32(movieDuration),
+      u32(0x00010000), u16(0x0100), zeros(10), unityMatrix, zeros(24), u32(2));
+
+    var tkhd = full('tkhd', 0, 3, u32(0), u32(0), u32(1), u32(0), u32(movieDuration),
+      zeros(8), u16(0), u16(0), u16(0), u16(0), unityMatrix,
+      u32(width * 65536), u32(height * 65536));
+
+    var mdhd = full('mdhd', 0, 0, u32(0), u32(0), u32(timescale), u32(durationTicks),
+      u16(0x55C4), u16(0));
+    var hdlr = full('hdlr', 0, 0, u32(0), s4('vide'), zeros(12), s4('VideoHandler\0'));
+
+    var avcCBox = box('avcC', new Uint8Array(avcC));
+    var avc1 = box('avc1', zeros(6), u16(1), u16(0), u16(0), zeros(12),
+      u16(width), u16(height), u32(0x00480000), u32(0x00480000), u32(0), u16(1),
+      cat([new Uint8Array([0]), zeros(31)]),        /* compressorname */
+      u16(0x0018), new Uint8Array([255, 255]), avcCBox);
+    var stsd = full('stsd', 0, 0, u32(1), avc1);
+
+    var stts = full('stts', 0, 0, u32(1), u32(n), u32(delta));
+
+    var syncs = [];
+    for (i = 0; i < n; i++) if (samples[i].key) syncs.push(u32(i + 1));
+    var stss = full('stss', 0, 0, u32(syncs.length), cat(syncs));
+
+    var stsc = full('stsc', 0, 0, u32(1), u32(1), u32(n), u32(1));
+
+    var sizes = [];
+    for (i = 0; i < n; i++) sizes.push(u32(samples[i].bytes.length));
+    var stsz = full('stsz', 0, 0, u32(0), u32(n), cat(sizes));
+
+    var stco = full('stco', 0, 0, u32(1), u32(firstSampleOffset));
+
+    var stbl = box('stbl', stsd, stts, stss, stsc, stsz, stco);
+    var dinf = box('dinf', full('dref', 0, 0, u32(1), full('url ', 0, 1)));
+    var minf = box('minf', full('vmhd', 0, 1, u16(0), zeros(6)), dinf, stbl);
+    var mdia = box('mdia', mdhd, hdlr, minf);
+    var trak = box('trak', tkhd, mdia);
+    var moov = box('moov', mvhd, trak);
+
+    return new Blob([ftyp, mdat, moov], { type: 'video/mp4' });
+  }
+
+  /* The film, encoded frame by frame with the timestamps we choose. Nothing
+   * is sampled off a live canvas and nothing is paced in real time, so the
+   * result is exactly N frames at exactly FPS however busy the machine is. */
+  async function viaWebCodecs(N) {
+    var samples = [], avcC = null, failed = null;
+    var enc = new VideoEncoder({
+      output: function (chunk, meta) {
+        if (meta && meta.decoderConfig && meta.decoderConfig.description && !avcC) {
+          avcC = meta.decoderConfig.description;
+        }
+        var b = new Uint8Array(chunk.byteLength);
+        chunk.copyTo(b);
+        samples.push({ bytes: b, key: chunk.type === 'key' });
+      },
+      error: function (e) { failed = String(e); }
+    });
+    enc.configure({
+      codec: 'avc1.640028', width: 1920, height: 1080,
+      bitrate: 12000000, framerate: FPS,
+      avc: { format: 'avc' }, latencyMode: 'quality'
+    });
+
+    for (var n = 0; n < N && !failed; n++) {
+      ex.seek(n / FPS);
+      var frame = new VideoFrame(canvas, {
+        timestamp: Math.round(n * 1000000 / FPS),
+        duration: Math.round(1000000 / FPS)
+      });
+      enc.encode(frame, { keyFrame: n % (FPS * 2) === 0 });
+      frame.close();
+      /* keep the encoder's queue short so a 42 s film does not hold every
+       * frame in memory at once */
+      if (enc.encodeQueueSize > 8) {
+        await new Promise(function (r) { setTimeout(r, 2); });
+      }
+      window.__progress = (n + 1) / N;
+    }
+    await enc.flush();
+    enc.close();
+    if (failed) throw new Error(failed);
+    if (!avcC) throw new Error('encoder gave no avcC');
+    if (samples.length !== N) throw new Error('encoded ' + samples.length + ' of ' + N);
+    return muxMp4(samples, avcC, 1920, 1080, FPS);
+  }
+
+  /* The fallback. Frames reach MediaRecorder through canvas.captureStream(0),
+   * a track that advances only when requestFrame() says so. It stamps frames
+   * as the compositor picks them up rather than when they are handed over, so
+   * the loop has to run in real time and the machine can still drop frames
+   * under load; on this one it degraded to 23 frames of 1230. Kept only for a
+   * browser without WebCodecs. */
+  function recorder(stream, type, chunks) {
+    var rec = new MediaRecorder(stream, { mimeType: type, videoBitsPerSecond: 12000000 });
+    rec.ondataavailable = function (e) { if (e.data && e.data.size) chunks.push(e.data); };
+    rec.onerror = function (e) { window.__recError = String((e && e.error) || e); };
+    rec.__done = new Promise(function (res) { rec.onstop = res; });
+    return rec;
+  }
+
+  async function viaCapture(N, type) {
+    var chunks = [];
+    var stream = canvas.captureStream(0);
+    var vtrack = stream.getVideoTracks()[0];
+    var rec = recorder(stream, type, chunks);
+    rec.start();
+    var t0 = performance.now();
+    for (var n = 0; n < N; n++) {
+      ex.seek(n / FPS);                      /* draw first, then hand it over */
+      await waitUntil(t0 + n * 1000 / FPS);
+      vtrack.requestFrame();
+      window.__progress = (n + 1) / N;
+    }
+    await sleep(500);
+    rec.stop();
+    vtrack.stop();
+    await rec.__done;
+    return new Blob(chunks, { type: type });
+  }
+
+  async function record() {
+    var type = pickType();
+    var webcodecs = (typeof VideoEncoder === 'function' && typeof VideoFrame === 'function');
+    if (!type && !webcodecs) {
+      window.__state = 'error:no-encoder'; document.title = 'ERROR'; return;
+    }
+    var N = Math.round(ex.duration * FPS);
+    warmUp();
+    await sleep(250);
+
+    var blob = null;
+    if (webcodecs) {
+      window.__path = 'webcodecs';
+      try {
+        blob = await viaWebCodecs(N);
+      } catch (e) {
+        window.__recError = String(e && e.message || e);
+        blob = null;
+      }
+    }
+    if ((!blob || !blob.size) && type) {
+      window.__path = 'capture-stream';
+      window.__progress = 0;
+      blob = await viaCapture(N, type);
+    }
+    if (!blob) { window.__state = 'error:no-file'; document.title = 'ERROR'; return; }
+    if (!blob.size) { window.__state = 'error:empty'; document.title = 'ERROR'; return; }
+    window.__state = 'uploading';
+    var r = await fetch('/__upload?type=' + encodeURIComponent(type) + '&frames=' + N +
+      '&fps=' + FPS + '&path=' + window.__path, {
+      method: 'POST', body: blob
+    });
+    window.__state = r.ok ? 'done' : 'error:upload';
+    document.title = r.ok ? 'DONE' : 'ERROR';
+  }
+
+  ex.ready.then(function () {
+    /* a film set in the fallback face is not the film, so say so rather than
+     * quietly shipping one */
+    var ok = document.fonts.check('700 40px Rajdhani') && document.fonts.check('500 20px Inter');
+    window.__fonts = ok;
+    if (!ok && q.get('record')) {
+      window.__state = 'error:fonts';
+      document.title = 'ERROR';
+      return;
+    }
+    var still = q.get('still');
+    if (still !== null) {
+      ex.seek(parseFloat(still) || 0);
+      window.__state = 'still';
+      document.title = 'STILL';
+      return;
+    }
+    if (q.get('record')) { window.__state = 'recording'; return record(); }
+    ex.seek(0);
+    window.__state = 'ready';
+    document.title = 'READY';
+  });
+}());
+</script>
+</body>
+</html>
