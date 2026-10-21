@@ -8,7 +8,7 @@ moisture and mould risk, structural deformation, and energy efficiency; the curr
 focuses on wall-adjacent environmental conditions, while other capabilities require further
 sensing and validation.
 
-**The pilot programme is open.** Four sites for Q4 2026, no cost, 12 weeks.
+**The pilot programme is open.** Four sites, no cost, 25 weeks.
 Enquiries: <contactibricklabs@gmail.com>
 
 ## Contents
