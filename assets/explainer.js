@@ -305,7 +305,7 @@
      * caption band repeating them back at the viewer */
     { id: 'end', dur: 3.5, fadeIn: 0.3, fadeOut: 0.0, bare: true,
       title: 'I-Brick',
-      caption: 'Understand your building, before damage shows. A no-cost, 25-week pilot is open on four sites — contactibricklabs@gmail.com' }
+      caption: 'Understand your building, before damage shows. A 25-week pilot is open on four sites — contactibricklabs@gmail.com' }
   ];
 
   var START = [], DURATION = 0;
@@ -1179,7 +1179,7 @@
     g.txt('In development · MVP software · prototype hardware', W / 2, H * 0.788,
       { s: 20, f: 'b', w: 400, c: C.faint, a: 'center', al: a2, v: 'middle' });
     var a3 = seg(p, 1.5, 2.1);
-    g.txt('A no-cost, 25-week pilot on four sites', W / 2, H * 0.845,
+    g.txt('A 25-week pilot on four sites', W / 2, H * 0.845,
       { s: 22, f: 'b', w: 500, c: C.faint, a: 'center', al: a3, v: 'middle' });
     g.txt('contactibricklabs@gmail.com', W / 2, H * 0.888,
       { s: 22, f: 'b', w: 600, c: C.cyan, a: 'center', al: a3, v: 'middle' });
