@@ -62,8 +62,8 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,17,27,.86);
 .wm .dot{color:var(--cyan)}
 .brand small{display:block;font-family:var(--sans);font-size:8px;font-weight:500;
   letter-spacing:2.4px;text-transform:uppercase;color:var(--faint);margin-top:3px}
-nav{margin-left:auto;display:flex;align-items:center;gap:26px}
-nav a{color:var(--dim);font-size:14px;font-weight:500}
+nav{margin-left:auto;display:flex;align-items:center;gap:20px}
+nav a{color:var(--dim);font-size:14px;font-weight:500;white-space:nowrap}
 nav a:hover{color:var(--text);text-decoration:none}
 @media(max-width:860px){nav a:not(.btn){display:none}}
 @media(max-width:1040px){nav a.nav-film{display:none}}
@@ -286,6 +286,40 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
   .fctrl{flex-wrap:wrap}
   .fctrl input[type=range]{order:3;flex-basis:100%;min-width:0;margin-top:4px}
   .fctrl .clock{margin-left:auto}
+}
+
+/* ── interaction polish ─────────────────────────────────────────────────── */
+::selection{background:rgba(0,200,220,.26);color:var(--text)}
+
+/* a visible keyboard focus ring, without putting one on every mouse click */
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
+  outline:2px solid var(--cyan);outline-offset:3px;border-radius:5px}
+
+/* an anchor jump should land the heading below the sticky header, not under it */
+section,.hero{scroll-margin-top:76px}
+
+/* short, and only on things that actually change */
+nav a,.btn,.card,.band,.stage-fact,.fchap button,.ctrl button,.fctrl button,
+.shot img,footer a,.sample{
+  transition:color .16s ease,border-color .16s ease,background-color .16s ease,
+             transform .18s cubic-bezier(.2,.7,.3,1),box-shadow .18s ease}
+.card:hover,.band:hover,.stage-fact:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.btn:active{transform:translateY(1px)}
+.shot img:hover{transform:scale(1.012)}
+.pilot:hover{border-color:rgba(0,200,220,.38)}
+
+/* breathing room scaled to the screen it is read on */
+@media(max-width:640px){
+  section{padding:58px 0}
+  .hero{padding:64px 0 54px}
+  .contact{padding:40px 22px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  nav a,.btn,.card,.band,.stage-fact,.fchap button,.ctrl button,.fctrl button,
+  .shot img,footer a,.sample{transition:none}
+  .card:hover,.band:hover,.stage-fact:hover,.shot img:hover,.btn:active{transform:none}
 }
 </style>
 </head>
@@ -678,7 +712,7 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
 
     <div class="bands">
       <div class="band b1"><div class="k">LOW</div><div class="a">Routine monitoring.</div></div>
-      <div class="band b2"><div class="k">WARNING</div><div class="a">Investigate at next visit.</div></div>
+      <div class="band b2"><div class="k">MEDIUM</div><div class="a">Investigate at next visit.</div></div>
       <div class="band b3"><div class="k">HIGH</div><div class="a">Intervene before damage.</div></div>
       <div class="band b4"><div class="k">CRITICAL</div><div class="a">Act now.</div></div>
     </div>
@@ -877,7 +911,7 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
   var py = function(v){ return Y100 + (Y40-Y100)*((100-v)/60); };
   scrub.max = LAST;
 
-  var NAMES=['LOW','WARNING','CRITICAL'];
+  var NAMES=['SAFE','WARNING','CRITICAL'];
   function note(lv, surf){
     if(lv===2) return 'Saturated. The engine is counting how long it stays here.';
     if(lv===1) return 'Drying, but still over the line. The clock keeps running.';
@@ -1084,8 +1118,16 @@ footer .cr{margin-top:18px;font-size:12.5px;color:#5C7684;max-width:70ch}
   ex.ready.then(function () {
     size();
     /* Reduced motion gets the frame the film is about, held still, and is
-     * never started for them. The controls still work if they want it. */
-    if (reduce) { seek(F.STARTS[4] + 4.2); playBtn.textContent = 'Play'; return; }
+     * never started for them. The controls still work if they want it. The
+     * scene is found by name: it was an index once, and reordering the film
+     * quietly moved the still onto a different scene. */
+    if (reduce) {
+      var ti = 0;
+      for (var s = 0; s < F.SCENES.length; s++) if (F.SCENES[s].id === 'test') ti = s;
+      seek(F.STARTS[ti] + 3.2);
+      playBtn.textContent = 'Play';
+      return;
+    }
     seek(0);
     if ('IntersectionObserver' in window) {
       var seen = false;
